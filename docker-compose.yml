@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  # frontend:
+  #   container_name: frontend
+  #   restart: always
+  #   build: ./frontend
+  #   ports:
+  #     - "5173:5173"
+  #   volumes:
+  #     - .:/app
+
+  # server:
+  #   container_name: express-mongo
+  #   restart: always
+  #   build: ./backend
+  #   ports:
+  #     - "8080:8080"
+  #   volumes:
+  #     - .:/app
+  #   links:
+  #     - mongo
+
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    ports:
+      - "27017:27017"
