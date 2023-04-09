@@ -1,8 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const authRoute = require("./routes/auth.routes");
 const cors = require("cors");
-const User = require("./models/User");
+
+const authRoute = require("./routes/auth.routes");
+const postRoute = require("./routes/posts.routes");
+const commentaryRoute = require("./routes/commentary.routes");
 
 const app = express();
 
@@ -14,12 +16,14 @@ function server() {
       })
       .then(() => console.log("MongoDB Connected"))
       .catch((err) => console.log(err));
+
     app.use(express.json());
     app.use(cors());
-    app.use("/api/auth", authRoute);
-    app.get("/delete", async (req, res) => {
-      await User.find().deleteMany();
-    });
+
+    app.use("/api", authRoute);
+    app.use("/api", postRoute);
+    app.use("/api", commentaryRoute);
+
     app.listen(8080, () => {
       console.log("Running...");
     });

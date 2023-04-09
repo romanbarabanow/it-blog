@@ -3,18 +3,23 @@ import styles from "./Registration.module.scss";
 import bg from "../../assets/image/bgone.jpeg";
 import { registration } from "../../action/auth";
 import { useDispatch, useSelector } from "react-redux";
+import { useCookies } from "react-cookie";
 
 const Registration = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [setCookie] = useCookies();
+
+  const token = useSelector((state) => state.user.user.token);
   const reg = async () => {
     console.log(name, email, password);
     const data = dispatch(registration(name, email, password));
     if (data === "Error") {
       alert("Такой пользователь уже существует");
     }
+    setCookie("token", token);
   };
   return (
     <div className={styles.main_contianer}>
