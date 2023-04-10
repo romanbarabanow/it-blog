@@ -305,18 +305,19 @@
   "resolved" "https://registry.npmjs.org/etag/-/etag-1.8.1.tgz"
   "version" "1.8.1"
 
-"express-validator@^6.15.0":
-  "integrity" "sha512-r05VYoBL3i2pswuehoFSy+uM8NBuVaY7avp5qrYjQBDzagx2Z5A77FZqPT8/gNLF3HopWkIzaTFaC4JysWXLqg=="
-  "resolved" "https://registry.npmjs.org/express-validator/-/express-validator-6.15.0.tgz"
-  "version" "6.15.0"
+express-validation@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/express-validation/-/express-validation-4.1.0.tgz#e697e62874a137be38ce1c5e61c7ebdf11cc6326"
+  integrity sha512-bAGRVdaJZ7yzCxELX29zvvJk0OUP/tw6tCtZtGnpK1O+yLY9qN8btwtclRQMGfIluZYIuxe++U/yPMlgEpU12A==
   dependencies:
-    "lodash" "^4.17.21"
-    "validator" "^13.9.0"
+    "@types/express" "^4.17.13"
+    "@types/hapi__joi" "16.x.x"
+    joi "^17.6.0"
 
-"express@^4.18.2":
-  "integrity" "sha512-5/PsL6iGPdfQ/lKM1UuielYgv3BUoJfz1aUwU9vHZ+J7gyvwdQXFEBIEIaxeGf0GIcreATNyBExtalisDbuMqQ=="
-  "resolved" "https://registry.npmjs.org/express/-/express-4.18.2.tgz"
-  "version" "4.18.2"
+express-validator@^6.15.0:
+  version "6.15.0"
+  resolved "https://registry.yarnpkg.com/express-validator/-/express-validator-6.15.0.tgz#5e4601428960b0d66f5f4ae09cb32ed2077374a4"
+  integrity sha512-r05VYoBL3i2pswuehoFSy+uM8NBuVaY7avp5qrYjQBDzagx2Z5A77FZqPT8/gNLF3HopWkIzaTFaC4JysWXLqg==
   dependencies:
     "accepts" "~1.3.8"
     "array-flatten" "1.1.1"
@@ -545,20 +546,21 @@
   "resolved" "https://registry.npmjs.org/is-number/-/is-number-7.0.0.tgz"
   "version" "7.0.0"
 
-"jsonwebtoken@^9.0.0":
-  "integrity" "sha512-tuGfYXxkQGDPnLJ7SibiQgVgeDgfbPq2k2ICcbgqW8WxWLBAxKQM/ZCu/IT8SOSwmaYl4dpTFCW5xZv7YbbWUw=="
-  "resolved" "https://registry.npmjs.org/jsonwebtoken/-/jsonwebtoken-9.0.0.tgz"
-  "version" "9.0.0"
+joi@^17.6.0:
+  version "17.9.1"
+  resolved "https://registry.yarnpkg.com/joi/-/joi-17.9.1.tgz#74899b9fa3646904afa984a11df648eca66c9018"
+  integrity sha512-FariIi9j6QODKATGBrEX7HZcja8Bsh3rfdGYy/Sb65sGlZWK/QWesU1ghk7aJWDj95knjXlQfSmzFSPPkLVsfw==
   dependencies:
-    "jws" "^3.2.2"
-    "lodash" "^4.17.21"
-    "ms" "^2.1.1"
-    "semver" "^7.3.8"
+    "@hapi/hoek" "^9.0.0"
+    "@hapi/topo" "^5.0.0"
+    "@sideway/address" "^4.1.3"
+    "@sideway/formula" "^3.0.1"
+    "@sideway/pinpoint" "^2.0.0"
 
-"jwa@^1.4.1":
-  "integrity" "sha512-qiLX/xhEEFKUAJ6FiBMbes3w9ATzyk5W7Hvzpa/SLYdxNtng+gcurvrI7TbACjIXlsJyr05/S1oUhZrc63evQA=="
-  "resolved" "https://registry.npmjs.org/jwa/-/jwa-1.4.1.tgz"
-  "version" "1.4.1"
+jsonwebtoken@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-9.0.0.tgz#d0faf9ba1cc3a56255fe49c0961a67e520c1926d"
+  integrity sha512-tuGfYXxkQGDPnLJ7SibiQgVgeDgfbPq2k2ICcbgqW8WxWLBAxKQM/ZCu/IT8SOSwmaYl4dpTFCW5xZv7YbbWUw==
   dependencies:
     "buffer-equal-constant-time" "1.0.1"
     "ecdsa-sig-formatter" "1.0.11"

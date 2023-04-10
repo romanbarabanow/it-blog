@@ -2,20 +2,38 @@ import React, { useState } from "react";
 import styles from "./Login.module.scss";
 import bg from "../../assets/image/bgONe.jpeg";
 import { NavLink } from "react-router-dom";
-import { authLogin } from "../../action/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { setUsers } from "../../store/UserReducer";
 import { useCookies } from "react-cookie";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cookies, setCookie] = useCookies();
+  async function start() {
+    const token = cookies.token;
+    if (token) {
+      const res = await axios.get(
+        `http://localhost:8080/api/auth?token=${token}`
+      );
+      if (res.status === 200) {
+        const { name, email } = res.data;
+        dispatch(
+          setUsers({
+            name: name,
+            email: email,
+          })
+        );
+      }
+    }
+  }
+  start();
   const loginHandle = async () => {
     const res = await axios.post(
-      "http://localhost:8080/api/auth/login",
+      "http://localhost:8080/api/login",
       {
         email: email,
         password: password,
@@ -35,6 +53,8 @@ const Login = () => {
         })
       );
       setCookie("token", res.data.token);
+    } else {
+      alert("Ошибка входа");
     }
   };
 

@@ -3,18 +3,21 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 const auth = async (req, res) => {
-  const { token } = req.body;
+  const { token } = req.query;
   if (!token) {
-    return res.json({ message: "Auth Fail" }).status(400);
+    return res.json({ message: "Auth Fail 1", token: token }).status(400);
   }
   const decodedtoken = jwt.decode(token, "superseckerkey");
-  const user = await User.findOne({ email: decodedtoken.email });
-  if (!user) {
-    return res.json({ message: "Auth Fail" }).status(400);
+  if (decodedtoken.email === null) {
+    return res.json({ message: "Auth Fail 2.2" }).status(400);
   }
-  const isValid = bcrypt.compareSync(decodedtoken.password, user.password);
+  const user = await User.findOne({ email: decodedtoken.email });
+  if (user.password === null) {
+    return res.json({ message: "Auth Fail 2" }).status(400);
+  }
+  const isValid = bcrypt.compare(decodedtoken.password, user.password);
   if (!isValid) {
-    return res.json({ message: "Auth Fail" }).status(400);
+    return res.json({ message: "Auth Fail 3" }).status(400);
   }
   res
     .json({
@@ -26,7 +29,7 @@ const auth = async (req, res) => {
 
 const registration = async (req, res) => {
   const { name, password, email } = req.body;
-  const isExist = await User.findOne({ email: email });
+  const isExist = await User.findOne({ email: email, name });
   if (isExist) {
     return res.status(400).json({
       message: "Some Error",
@@ -55,14 +58,15 @@ const registration = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
   const users = await User.findOne({ email: email });
-  if (!users) {
+  if (users === null) {
     res
       .json({
         message: "Some auth errors",
       })
       .status(400);
   }
-  const isValid = bcrypt.compareSync(password, users.password);
+  // res.json(users).status(200);
+  const isValid = bcrypt.compare(password, users.password);
   if (!isValid) {
     return res.status(400).json({
       message: "Some auth errors",

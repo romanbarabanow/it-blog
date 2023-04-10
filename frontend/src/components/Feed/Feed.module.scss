@@ -1,0 +1,14 @@
+.main_container {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  background-color: whitesmoke;
+  min-height: 100vh;
+}
+
+.post_container {
+  width: 70%;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+}
