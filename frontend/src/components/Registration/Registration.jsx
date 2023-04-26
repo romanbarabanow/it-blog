@@ -1,56 +1,74 @@
-import React, { useState } from "react";
 import styles from "./Registration.module.scss";
-import bg from "../../assets/image/bgone.jpeg";
-import { registration } from "../../action/auth";
-import { useDispatch, useSelector } from "react-redux";
+import io from "socket.io-client";
+const socket = io.connect("http://localhost:5005");
 import { useCookies } from "react-cookie";
+import { useEffect, useState } from "react";
 
-const Registration = () => {
-  const dispatch = useDispatch();
+const Registration = ({ setReg, setProfile }) => {
+  const [cookies, setCookie, removeCookie] = useCookies();
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [setCookie] = useCookies();
-
-  const token = useSelector((state) => state.user.user.token);
-  const reg = async () => {
-    console.log(name, email, password);
-    const data = dispatch(registration(name, email, password));
-    if (data === "Error") {
-      alert("Такой пользователь уже существует");
-    }
-    setCookie("token", token);
+  const [login, setLogin] = useState("");
+  const [password, setPasword] = useState("");
+  const registrationHandle = () => {
+    socket.emit("registration", { name, login, password });
+    setCookie("email", login);
   };
+  useEffect(() => {
+    socket.on("regData", (data) => {
+      if (data.data) {
+        setCookie("email", data.data.email);
+        window.location.reload();
+      }
+    });
+  }, [socket]);
   return (
-    <div className={styles.main_contianer}>
-      <div className={styles.login_container}>
-        <p>Зарегистрироваться</p>
-        <div>
-          <input
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-            placeholder="Введите никнейм"
-          />
-          <input
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-            placeholder="Введите почту"
-          />
-          <input
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            placeholder="Введите пароль"
-          />
+    <div
+      className={styles.main_container}
+      onClick={() => {
+        setReg(false);
+      }}
+    >
+      <div
+        className={styles.reg_container}
+        onClick={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+        }}
+      >
+        <p>Регистрация</p>
+        <div className={styles.data}>
+          <div>
+            <p>Имя</p>
+            <input
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            />
+          </div>
+          <div>
+            <p>Почта</p>
+            <input
+              value={login}
+              onChange={(e) => {
+                setLogin(e.target.value);
+              }}
+            />
+          </div>
+          <div>
+            <p>Пароль</p>
+            <input
+              value={password}
+              onChange={(e) => {
+                setPasword(e.target.value);
+              }}
+            />
+          </div>
         </div>
-        <button onClick={reg}>Зарегистрироваться</button>
+        <button className={styles.button} onClick={registrationHandle}>
+          Создать Аккаунт
+        </button>
       </div>
-      <img src={bg} alt="" className={styles.bg} />
     </div>
   );
 };

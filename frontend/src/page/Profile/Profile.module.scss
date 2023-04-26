@@ -1,0 +1,94 @@
+.container {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.main_container {
+  width: 90%;
+}
+
+.image {
+  background-color: rgba(128, 128, 128, 0.135);
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+}
+
+.header_container {
+  margin-top: 20px;
+  display: flex;
+}
+
+.text {
+  font-size: 25px;
+}
+
+.con {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.write_post {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.send_button {
+  button {
+    width: 200px;
+    border-radius: 10px;
+    cursor: pointer;
+    height: 33px;
+    color: white;
+    border: none;
+    background: deepskyblue;
+    font-size: 15px;
+  }
+}
+
+.file {
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  opacity: 0;
+  line-height: 0;
+}
+
+.button_file {
+  cursor: pointer;
+  margin-top: 10px;
+  width: 200px;
+  color: white;
+  height: 40px;
+  border-radius: 10px;
+  border: none;
+  background-color: blueviolet;
+  font-size: 15px;
+}
+
+.input_post {
+  width: 90%;
+  height: 150px;
+  outline: none;
+  resize: none;
+}
+
+.inputTittle {
+  width: 90%;
+  height: 30px;
+  outline: none;
+  margin-bottom: 10px;
+}
+
+.buttons {
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}

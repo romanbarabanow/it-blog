@@ -1,0 +1,29 @@
+.main_container {
+  width: 15%;
+  display: flex;
+  p {
+    cursor: pointer;
+  }
+}
+
+.something {
+  position: fixed;
+  width: 12%;
+  padding-left: 10px;
+  height: 110px;
+  background-color: white;
+  border-radius: 0 0 10px 10px;
+  border: 1px solid black;
+  border-top: none;
+  margin-top: 53px;
+  margin-left: 2.5%;
+  p{
+    text-decoration: none;
+    font-size: 15px;
+    cursor: pointer;
+  }
+}
+
+.text {
+  color: black;
+}

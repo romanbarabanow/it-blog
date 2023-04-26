@@ -1,41 +1,26 @@
-import React, { useState } from "react";
 import styles from "./Post.module.scss";
-import commentary from "../../Image/commentary.png";
-import profile from "../../Image/profile.png";
-import likes from "../../Image/like.png";
-import active_like from "../../Image/activeLike.png";
 
 const Post = (props) => {
-  const [like, setLike] = useState(false);
   const post = props.post;
+  if (post.tittle === "Хуйня") {
+    return <div></div>;
+  }
   return (
-    <div className={styles.container}>
-      <div className={styles.profile_container}>
-        <img src={profile} alt="" />
-        <p className={styles.main_text}>By {post.name}</p>
+    <div className={styles.container} key={post._id}>
+      <div className={styles.top_container}>
+        <p
+          className={styles.name}
+          onClick={() => {
+            console.log(post._id);
+          }}
+        >
+          {post.name}
+        </p>
         <p className={styles.tittle}>{post.tittle}</p>
       </div>
-      <div className={styles.text_container}>
-        <p>{post.text}</p>
-      </div>
-      <div className={styles.commentary_and_like_container}>
-        {post.likes}
-        {like ? (
-          <img
-            src={active_like}
-            onClick={() => {
-              setLike(!like);
-            }}
-          />
-        ) : (
-          <img
-            src={likes}
-            onClick={() => {
-              setLike(!like);
-            }}
-          />
-        )}
-        <img src={commentary} alt="" />
+      <div className={styles.text_container}>{post.text}</div>
+      <div className={styles.img_container}>
+        <img src={post.img_link} />
       </div>
     </div>
   );

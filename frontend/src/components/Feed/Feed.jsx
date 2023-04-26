@@ -1,23 +1,19 @@
-import React, { useEffect } from "react";
 import styles from "./Feed.module.scss";
-import { getAllPosts } from "../../action/posts";
-import { useDispatch, useSelector } from "react-redux";
-import { useCookies } from "react-cookie";
-import Post from "../Post/Post";
+import Post from "../Post/Post.jsx";
+import axios from "axios";
 
-const Feed = () => {
-  const dispatch = useDispatch();
-  const posts = useSelector((state) => state.post.posts);
-  const [cookie] = useCookies();
-  useEffect(() => {
-    dispatch(getAllPosts(cookie.token));
-  }, [dispatch]);
+const Feed = ({ post }) => {
+  const postFilter = () => {
+    if (post.lenght != 0) {
+      return post.map((el) => <Post post={el} key={el.id} />);
+    } else {
+      return <p>Нет постов</p>;
+    }
+  };
   return (
-    <div className={styles.main_container}>
-      <div className={styles.post_container}>
-        {posts.map((el) => (
-          <Post post={el} />
-        ))}
+    <div className={styles.container}>
+      <div className={styles.main_container} key={"123"}>
+        {postFilter()}
       </div>
     </div>
   );

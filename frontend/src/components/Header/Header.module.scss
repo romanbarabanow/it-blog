@@ -1,51 +1,78 @@
-.first_block {
-  width: 100%;
-  margin: 0;
-  height: 40px;
-  background-color: darkblue;
-}
-
-.second_block {
-  width: 100%;
+.main_container {
+  width: 100vw;
+  height: 55px;
   display: flex;
   justify-content: space-between;
-  // border-bottom: 1px solid gray;
-  color: rgb(0, 0, 0);
-  // background-color: rgb(0, 0, 125);
+  align-items: center;
+  -webkit-box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.6) inset;
+  -moz-box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.6) inset;
+  box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.6) inset;
 }
-
-.navigation {
+.navigation_container {
+  width: 60%;
   display: flex;
-  width: 70%;
+  align-items: center;
   justify-content: space-around;
   p {
     cursor: pointer;
-    &::after {
-      display: block; /*превращаем его в блочный элемент*/
-      content: ""; /*контента в данном блоке не будет поэтому в кавычках ничего не ставим*/
-      height: 2px; /*задаём высоту линии*/
-      width: 0%; /*задаём начальную ширину элемента (линии)*/
-      background-color: #786bfd; /*цвет фона элемента*/
-      transition: width 0.4s ease-in-out;
-    }
-    &:hover::after,
-    &:focus::after {
-      width: 100%;
-    }
   }
 }
 
-.userBlock {
+.account_container {
+  width: 15%;
   display: flex;
-  align-items: center;
-  width: 10%;
-  justify-content: flex-end;
+  justify-content: space-around;
+  .login {
+    cursor: pointer;
+  }
+}
+
+.reg {
+  width: 100%;
+  display: flex;
+  justify-content: center;
   p {
     cursor: pointer;
-    margin-right: 20px;
   }
 }
 
-.go_out {
-  font-size: 15px;
+.help {
+  width: 100%;
+  position: absolute;
+  z-index: 11111;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.login_container {
+  width: 15%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+  background-color: white;
+  border-radius: 0 0 10px 10px;
+  border: 1px solid black;
+  border-top: none;
+  .input {
+    p {
+      height: 5px;
+    }
+    input {
+      width: 90%;
+      height: 17px;
+      border-radius: 5px;
+    }
+  }
+  button {
+    cursor: pointer;
+    margin-top: 10px;
+    width: 90%;
+    height: 30px;
+    border: none;
+    background-color: deepskyblue;
+    font-size: 16px;
+    border-radius: 10px;
+    color: white;
+  }
 }
