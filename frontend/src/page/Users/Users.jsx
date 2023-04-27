@@ -4,7 +4,7 @@ import Header from "../../components/Header/Header";
 import io from "socket.io-client";
 import { useCookies } from "react-cookie";
 import { NavLink } from "react-router-dom";
-const socket = io.connect("http://localhost:5005");
+const socket = io.connect("http://localhost:5002");
 
 const Users = () => {
   const [cookies, setCookie, removeCookie] = useCookies();

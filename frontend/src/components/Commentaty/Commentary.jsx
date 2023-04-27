@@ -4,7 +4,7 @@ import Post from "../Post/Post";
 import io from "socket.io-client";
 import arrow from "../../image/arrow.png";
 import { useCookies } from "react-cookie";
-const socket = io.connect("http://localhost:5005");
+const socket = io.connect("http://localhost:5003");
 
 const Commentary = ({ post, setCommentaryView }) => {
   socket.emit("get-commentary", { postid: post._id });

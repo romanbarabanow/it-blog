@@ -4,7 +4,7 @@ import laik from "../../image/laik.png";
 import Commentary from "../Commentaty/Commentary";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:5005");
+const socket = io.connect("http://localhost:5003");
 
 const Post = (props) => {
   const [commentaryView, setCommentaryView] = useState(false);
@@ -47,11 +47,11 @@ const Post = (props) => {
             <img
               src={laik}
               onClick={() => {
-                if (isLiked == true) {
+                if (isLiked == false) {
                   socket.emit("like", { id: post._id });
                   setIsLiked(!isLiked);
                 }
-                if (isLiked == false) {
+                if (isLiked == true) {
                   socket.emit("unlike", { id: post._id });
                   setIsLiked(!isLiked);
                 }

@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 import ProfileHeader from "../ProfileHeader/ProfileHeader.jsx";
 import { NavLink } from "react-router-dom";
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:5005");
+const socket = io.connect("http://localhost:5002");
 
 const Header = () => {
   const [loginInput, setLoginInput] = useState("");

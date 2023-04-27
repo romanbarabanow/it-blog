@@ -3,7 +3,7 @@ import Post from "../Post/Post";
 import deletePostImg from "../../image/delete.png";
 
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:5005");
+const socket = io.connect("http://localhost:5003");
 
 const UserPost = ({ post, setMyPosts }) => {
   const postsUsers = () => {

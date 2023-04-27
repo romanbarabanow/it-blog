@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import styles from "./InputLogin.module.scss";
-import io from "socket.io-client";
 import { useCookies } from "react-cookie";
-const socket = io.connect("http://localhost:5005");
 
 const InputLogin = ({
   loginInput,
@@ -14,7 +12,6 @@ const InputLogin = ({
   setProfile,
   loginToAccount,
 }) => {
-
   return (
     <div className={styles.help}>
       <div className={styles.login_container}>

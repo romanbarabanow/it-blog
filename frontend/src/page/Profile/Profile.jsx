@@ -5,7 +5,8 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import UserPost from "../../components/UserPost/UserPost.jsx";
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:5005");
+const socketPost = io.connect("http://localhost:5003");
+const socketLogin = io.connect("http://localhost:5002");
 
 const Profile = () => {
   const picker = useRef();
@@ -25,7 +26,7 @@ const Profile = () => {
         formData
       )
       .then((response) => {
-        socket.emit("create-post", {
+        socketPost.emit("create-post", {
           text: post,
           tittle: inputTittle,
           img_link: response.data.urlfile,
@@ -38,15 +39,15 @@ const Profile = () => {
     setInputTittle("");
     setPost("");
   };
-  socket.emit("login", { email: cookies.email });
-  socket.emit("myPost", { email: user.name });
+  socketLogin.emit("login", { email: cookies.email });
+  socketPost.emit("myPost", { email: user.name });
   useEffect(() => {
-    socket.on("data for login", (data) => {
+    socketLogin.on("data for login", (data) => {
       if (data.data) {
         setUser(data.data);
       }
     });
-    socket.on("post", (data) => {
+    socketPost.on("post", (data) => {
       if (data.data) {
         const newArray = [];
         data.data.forEach((el) => {
@@ -55,7 +56,7 @@ const Profile = () => {
         setMyPosts(newArray);
       }
     });
-    socket.on("newPost", (data) => {
+    socketPost.on("newPost", (data) => {
       if (data.data) {
         const newArray = [];
         data.data.forEach((el) => {
@@ -64,7 +65,7 @@ const Profile = () => {
         setMyPosts(newArray);
       }
     });
-  }, [socket]);
+  }, [socketPost, socketLogin]);
   return (
     <>
       <Header />

@@ -4,7 +4,7 @@ import Feed from "../../components/Feed/Feed.jsx";
 import axios from "axios";
 import styles from "./Main.module.scss";
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:5005");
+const socket = io.connect("http://localhost:5003");
 
 const Main = () => {
   const [news, setNews] = useState([]);

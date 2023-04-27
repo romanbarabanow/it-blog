@@ -1,6 +1,6 @@
 import styles from "./Registration.module.scss";
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:5005");
+const socket = io.connect("http://localhost:5002");
 import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
 

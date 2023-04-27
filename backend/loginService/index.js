@@ -42,53 +42,67 @@ mongoose
   .catch((err) => console.log(err));
 
 io.on("connection", (socket) => {
-  socket.on("join", ({ id }) => {
-    socket.join(id);
-    socket.emit("messages", {
-      data,
+  socket.on("all-users", () => {
+    User.find().then((data) => {
+      socket.emit("users", { data });
     });
   });
-  socket.on("sendMessage", ({ id, message }) => {
-    data.push({ id: Date.now(), message, me: true });
-    socket.to(id).emit("message", data);
-  });
-  socket.on("my-dialogs", ({ myName }) => {
-    RoomsForMessage.find({ myName }).then((datas) => {
-      socket.emit("my-dialogs", { datas });
+  socket.on("loginWithData", ({ email, password }) => {
+    User.findOne({ email: email, password: password }).then((data) => {
+      if (data != null) {
+        socket.emit("token", { user: data });
+      }
     });
   });
-  socket.on("create-room", ({ creator, friendId }) => {
-    User.findOne({ _id: friendId }).then((friend) => {
-      if (friend != null) {
-        RoomsForMessage.findOne({ myName: friend.name }).then((isExist) => {
-          if (isExist === null) {
-            RoomsForMessage.findOne({ myName: creator }).then((myExist) => {
-              if (myExist === null) {
-                const roomid = Date.now();
-                const roomForFriend = new RoomsForMessage({
-                  room_id: roomid,
-                  name: creator,
-                  myName: friend.name,
-                });
-                const myRoom = new RoomsForMessage({
-                  room_id: roomid,
-                  name: friend.name,
-                  myName: creator,
-                });
-                roomForFriend.save();
-                myRoom.save();
-                RoomsForMessage.find({ myName: creator }).then((datas) => {
-                  socket.emit("newRoomData", { datas });
-                });
-              }
+  socket.on("changeUser", ({ avatar_link, description, password, email }) => {
+    User.findOneAndUpdate(
+      { email: email },
+      { avatar_link, description, password },
+      { returnDocument: "after" }
+    ).then((data) => {
+      socket.emit("changeUsersData", {
+        data,
+      });
+    });
+  });
+  socket.on("login", ({ email }) => {
+    if (email) {
+      User.findOne({ email: email }).then((data) => {
+        if (data === null) {
+          socket.emit("data for login", {
+            message: "Fail",
+          });
+        }
+        socket.emit("data for login", {
+          data,
+        });
+      });
+    }
+    socket.emit("data for login", {
+      message: "Fail",
+    });
+  });
+  socket.on("registration", ({ name, login, password }) => {
+    User.findOne({ email: login, name }).then((data) => {
+      if (data === null) {
+        const newUser = new User({
+          email: login,
+          name,
+          password,
+        });
+        newUser.save().then(() => {
+          User.findOne({ email: login }).then((data) => {
+            axios.post(`http://localhost:5000/dir?name=${data.name}`);
+            socket.emit("regData", {
+              data,
             });
-          }
+          });
         });
       }
     });
   });
 });
 
-server.listen(5001, () => {
+server.listen(5002, () => {
   console.log("Run");
 });

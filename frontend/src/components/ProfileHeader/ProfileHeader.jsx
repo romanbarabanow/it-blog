@@ -3,8 +3,6 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
-import io from "socket.io-client";
-const socket = io.connect("http://localhost:5005");
 
 const ProfileHeader = ({ profile, setLogin, login, setProfile }) => {
   const [menu, setMenu] = useState(false);

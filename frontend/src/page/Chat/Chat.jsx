@@ -4,7 +4,7 @@ import io from "socket.io-client";
 import Header from "../../components/Header/Header";
 import { useSearchParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-const socket = io.connect("http://localhost:5005");
+const socket = io.connect("http://localhost:5001");
 
 const Chat = () => {
   const ref = useRef();
