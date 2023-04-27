@@ -9,8 +9,8 @@ app.use(cors());
 app.use(fileUpload({}));
 app.use(express.json());
 
-app.post("/create-dir", (req, res) => {
-  const { name } = req.body;
+app.post("/dir", (req, res) => {
+  const { name } = req.query;
   fs.mkdir(`./files/${name}`, (error) => {
     if (error) {
       res.json({ message: "Already exist" }).status(400);

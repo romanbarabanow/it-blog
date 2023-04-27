@@ -7,6 +7,7 @@ const axios = require("axios");
 const Post = require("./mongo/Post");
 const User = require("./mongo/User");
 const RoomsForMessage = require("./mongo/RoomsForMessage");
+const Commentary = require("./mongo/Commentary");
 
 const app = express();
 const mongoose = require("mongoose");
@@ -41,6 +42,48 @@ mongoose
   .catch((err) => console.log(err));
 
 io.on("connection", (socket) => {
+  socket.on("like", ({ id }) => {
+    console.log("like");
+    Post.findOne({ _id: id }).then((data) => {
+      Post.findOneAndUpdate({ _id: id }, { likes: data.likes + 1 }).then(
+        Post.findOne({ _id: id }).then((data) => {
+          socket.emit("likes", data);
+        })
+      );
+    });
+  });
+  socket.on("unlike", ({ id }) => {
+    console.log("like");
+    Post.findOne({ _id: id }).then((data) => {
+      Post.findOneAndUpdate({ _id: id }, { likes: data.likes - 1 }).then(
+        Post.findOne({ _id: id }).then((data) => {
+          socket.emit("likes", data);
+        })
+      );
+    });
+  });
+  socket.on("create-commentary", ({ postid, author, message }) => {
+    User.findOne({ name: author }).then((data) => {
+      if (data !== null) {
+        const newCommentary = new Commentary({
+          post_id: postid,
+          author,
+          message,
+          avatar: data.avatar_link,
+        });
+        newCommentary.save().then(
+          Commentary.find({ post_id: postid }).then((data) => {
+            socket.emit("commentary", { data });
+          })
+        );
+      }
+    });
+  });
+  socket.on("get-commentary", ({ postid }) => {
+    Commentary.find({ post_id: postid }).then((data) => {
+      socket.emit("commentary", { data });
+    });
+  });
   socket.on("all_posts", () => {
     Post.find().then((data) => {
       socket.emit("all_posts", data);
@@ -134,11 +177,7 @@ io.on("connection", (socket) => {
         });
         newUser.save().then(() => {
           User.findOne({ email: login }).then((data) => {
-            axios.post("http://localhost:5000/create-dir", {
-              data: {
-                name: data.name,
-              },
-            });
+            axios.post(`http://localhost:5000/dir?name=${data.name}`);
             socket.emit("regData", {
               data,
             });
@@ -173,7 +212,7 @@ io.on("connection", (socket) => {
                 roomForFriend.save();
                 myRoom.save();
                 RoomsForMessage.find({ myName: creator }).then((datas) => {
-                  socket.emit("my-dialogs", { datas });
+                  socket.emit("newRoomData", { datas });
                 });
               }
             });

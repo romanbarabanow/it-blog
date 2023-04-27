@@ -52,6 +52,7 @@ const ProfileHeader = ({ profile, setLogin, login, setProfile }) => {
           <p
             onClick={() => {
               removeCookie("email");
+              removeCookie("name");
               window.location.reload("/");
             }}
           >

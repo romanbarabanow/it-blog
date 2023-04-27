@@ -24,8 +24,15 @@
   font-size: 25px;
 }
 
-.con {
+.description_container {
+  width: 88%;
   display: flex;
+}
+
+.con {
+  margin-left: 10px;
+  display: flex;
+  width: 10%;
   flex-direction: column;
   justify-content: center;
 }

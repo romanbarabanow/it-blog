@@ -12,11 +12,13 @@ const Registration = ({ setReg, setProfile }) => {
   const registrationHandle = () => {
     socket.emit("registration", { name, login, password });
     setCookie("email", login);
+    setCookie("name", name);
   };
   useEffect(() => {
     socket.on("regData", (data) => {
       if (data.data) {
         setCookie("email", data.data.email);
+        setCookie("name", data.data.name);
         window.location.reload();
       }
     });

@@ -76,7 +76,9 @@ const Profile = () => {
 
               <p className={styles.text}>{user.name}</p>
             </div>
-            <p>{user.description}</p>
+            <div className={styles.description_container}>
+              <p style={{ marginLeft: "10px" }}>{user.description}</p>
+            </div>
           </div>
           <div className={styles.write_post}>
             <div style={{ width: "70%" }}>

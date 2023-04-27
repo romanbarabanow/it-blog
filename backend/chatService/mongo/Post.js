@@ -5,6 +5,7 @@ const Post = new Schema({
   img_link: { type: String, default: "" },
   tittle: { type: String, required: true },
   text: { type: String, required: true },
+  likes: { type: Number, default: 0 },
 });
 
 module.exports = model("Post", Post);

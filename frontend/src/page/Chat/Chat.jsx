@@ -43,6 +43,12 @@ const Chat = () => {
         setDialogs(data.datas);
       }
     });
+    socket.on("newRoomData", (data) => {
+      console.log(data);
+      if (data.datas.lenght !== 0) {
+        setDialogs(data.datas);
+      }
+    });
     socket.on("messages", (data) => {
       setMessages(data.data);
       inView();

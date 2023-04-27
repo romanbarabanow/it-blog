@@ -20,6 +20,21 @@
   }
 }
 
+.commentary {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  img {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+}
+
 .text_container {
   width: 100%;
   overflow: inherit;
