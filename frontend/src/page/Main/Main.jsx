@@ -19,7 +19,11 @@ const Main = () => {
   socket.emit("all_posts");
   useEffect(() => {
     socket.on("all_posts", (data) => {
-      setPost(data);
+      const newArray = [];
+      data.forEach((el) => {
+        newArray.unshift(el);
+      });
+      setPost(newArray);
     });
   }, [socket]);
   return (

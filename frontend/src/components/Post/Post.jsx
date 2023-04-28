@@ -4,6 +4,7 @@ import laik from "../../image/laik.png";
 import Commentary from "../Commentaty/Commentary";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
+import { NavLink } from "react-router-dom";
 const socket = io.connect("http://localhost:5003");
 
 const Post = (props) => {
@@ -17,6 +18,12 @@ const Post = (props) => {
   }
   useEffect(() => {
     socket.on("likes", (data) => {
+      if (data._id === post._id) {
+        console.log(data);
+        setLike(data.likes);
+      }
+    });
+    socket.on("unlikes", (data) => {
       if (data._id === post._id) {
         console.log(data);
         setLike(data.likes);
@@ -57,12 +64,9 @@ const Post = (props) => {
                 }
               }}
             />
-            <img
-              src={commentaryImg}
-              onClick={() => {
-                setCommentaryView(true);
-              }}
-            />
+            <NavLink to={`/commentary?id=${post._id}`}>
+              <img src={commentaryImg} />
+            </NavLink>
           </div>
         )}
       </div>

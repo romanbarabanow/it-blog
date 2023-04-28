@@ -43,7 +43,12 @@ const Header = () => {
           <NavLink style={{ color: "black", textDecoration: "none" }} to="/">
             <p>Главная</p>
           </NavLink>
-          <p>Форум</p>
+          <NavLink
+            style={{ color: "black", textDecoration: "none" }}
+            to="/forum"
+          >
+            <p>Форум</p>
+          </NavLink>
           <NavLink
             style={{ color: "black", textDecoration: "none" }}
             to="/test"

@@ -4,16 +4,18 @@ import Post from "../Post/Post";
 import io from "socket.io-client";
 import arrow from "../../image/arrow.png";
 import { useCookies } from "react-cookie";
+import { NavLink, useSearchParams } from "react-router-dom";
 const socket = io.connect("http://localhost:5003");
 
-const Commentary = ({ post, setCommentaryView }) => {
-  socket.emit("get-commentary", { postid: post._id });
+const Commentary = () => {
+  const [queryParameters] = useSearchParams();
+  socket.emit("get-commentary", { postid: queryParameters.get("id") });
   const [input, setInput] = useState("");
   const [commentary, setCommentary] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies();
   const writeCommentary = () => {
     socket.emit("create-commentary", {
-      postid: post._id,
+      postid: queryParameters.get("id"),
       author: cookies.name,
       message: input,
     });
@@ -21,18 +23,19 @@ const Commentary = ({ post, setCommentaryView }) => {
   };
   useEffect(() => {
     socket.on("commentary", (data) => {
-      setCommentary(data.data);
+      const newArray = [];
+      data.data.forEach((el) => {
+        newArray.unshift(el);
+      });
+      setCommentary(newArray);
     });
   }, [socket]);
   return (
     <div className={styles.main_container}>
       <div className={styles.goback}>
-        <img
-          src={arrow}
-          onClick={() => {
-            setCommentaryView(false);
-          }}
-        />
+        <NavLink to="/">
+          <img src={arrow} onClick={() => {}} />
+        </NavLink>
       </div>
       <div className={styles.container}>
         <div className={styles.input_container}>

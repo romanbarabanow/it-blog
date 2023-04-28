@@ -43,7 +43,6 @@ mongoose
 
 io.on("connection", (socket) => {
   socket.on("like", ({ id }) => {
-    console.log("like");
     Post.findOne({ _id: id }).then((data) => {
       Post.findOneAndUpdate({ _id: id }, { likes: data.likes + 1 }).then(
         Post.findOne({ _id: id }).then((data) => {
@@ -53,12 +52,11 @@ io.on("connection", (socket) => {
     });
   });
   socket.on("unlike", ({ id }) => {
-    console.log("like");
     Post.findOne({ _id: id }).then((data) => {
-      if (data.like > 0) {
+      if (data.likes != 0) {
         Post.findOneAndUpdate({ _id: id }, { likes: data.likes - 1 }).then(
           Post.findOne({ _id: id }).then((data) => {
-            socket.emit("likes", data);
+            socket.emit("unlikes", data);
           })
         );
       }
