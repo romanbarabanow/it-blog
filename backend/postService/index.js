@@ -22,20 +22,8 @@ const io = new Server(server, {
   },
 });
 
-const data = [
-  { id: "a57566786786765d", message: "Привет", me: false },
-  { id: "a575786786675ad", message: "Привет", me: true },
-  { id: "a5677678686785675aaad", message: "Что делаешь?", me: false },
-  { id: "aa75678768678678675vdfvdad", message: "Да ничего, отдыхаю", me: true },
-  { id: "advdv4534645645dbd", message: "Понятненько", me: false },
-  { id: "afvdvgr45345fad", message: "Пойдешь завтра гулять?", me: true },
-  { id: "aad5dfsdfsdfsdf7576575vdfaad", message: "Почему бы и нет", me: false },
-  { id: "a12adsfsdfsdad", message: "Тогда давай", me: true },
-  { id: "a575534534534575adad", message: "Дела пойду делать", me: true },
-];
-
 mongoose
-  .connect("mongodb://localhost:27017/expressmongo", {
+  .connect("mongodb://mongodb:27017/expressmongo", {
     useNewUrlParser: true,
   })
   .then(() => console.log("MongoDB Connected"))

@@ -10,17 +10,54 @@ services:
   #   volumes:
   #     - .:/app
 
-  # server:
-  #   container_name: express-mongo
-  #   restart: always
-  #   build: ./backend
-  #   ports:
-  #     - "8080:8080"
-  #   volumes:
-  #     - .:/app
-  #   links:
-  #     - mongo
-
+  image-service:
+    container_name: image-service
+    restart: always
+    build: ./backend/imageService
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+  login-service:
+    container_name: login-service
+    restart: always
+    build: ./backend/loginService
+    ports:
+      - "5002:5002"
+    volumes:
+      - .:/app
+    links:
+      - mongodb
+  forum-service:
+    container_name: forum-service
+    restart: always
+    build: ./backend/forumService
+    ports:
+      - "5004:5004"
+    volumes:
+      - .:/app
+    links:
+      - mongodb
+  chat-service:
+    container_name: chat-service
+    restart: always
+    build: ./backend/chatService
+    ports:
+      - "5001:5001"
+    volumes:
+      - .:/app
+    links:
+      - mongodb
+  post-service:
+    container_name: post-service
+    restart: always
+    build: ./backend/postService
+    ports:
+      - "5003:5003"
+    volumes:
+      - .:/app
+    links:
+      - mongodb
   mongodb:
     container_name: mongodb
     image: mongo

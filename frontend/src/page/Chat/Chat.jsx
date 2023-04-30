@@ -13,21 +13,23 @@ const Chat = () => {
   const [dialogs, setDialogs] = useState([]);
   const [messages, setMessages] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies();
-  const getMessage = () => {
-    socket.emit("join", { id: "ad" });
-  };
+  const [roomId, setRoomId] = useState("");
   const inView = () => {
     ref.current.scrollIntoView(true);
   };
   const [queryParameters] = useSearchParams();
   const sendMessage = () => {
-    socket.emit("sendMessage", { id: "ad", message });
+    socket.emit("sendMessage", { id: roomId, message, author: cookies.name });
   };
+  let counter = 0;
   if (queryParameters.get("type") === "createroom") {
-    socket.emit("create-room", {
-      friendId: queryParameters.get("friendId"),
-      creator: cookies.name,
-    });
+    if (counter == 0) {
+      counter = 1;
+      socket.emit("create-room", {
+        friendName: queryParameters.get("friendName"),
+        creator: cookies.name,
+      });
+    }
   }
   socket.emit("my-dialogs", { myName: cookies.name });
   const setdialogData = () => {
@@ -45,18 +47,15 @@ const Chat = () => {
     });
     socket.on("newRoomData", (data) => {
       console.log(data);
-      if (data.datas.lenght !== 0) {
-        setDialogs(data.datas);
-      }
+      setDialogs(data);
+    });
+    socket.on("newData", (data) => {
+      setMessages(data);
     });
     socket.on("messages", (data) => {
-      setMessages(data.data);
+      setMessages(data);
       inView();
     });
-    // socket.on("message", (data) => {
-    //   setMessages(data.data);
-    //   inView();
-    // });
   }, [socket]);
   return (
     <>
@@ -83,6 +82,8 @@ const Chat = () => {
                   className={styles.user_container}
                   onClick={() => {
                     setSelectDialog(el.name);
+                    socket.emit("join", { id: el.room_id });
+                    setRoomId(el.room_id);
                   }}
                 >
                   <p>{el.name}</p>
@@ -97,7 +98,7 @@ const Chat = () => {
           </div>
           <div className={styles.messages}>
             {messages.map(function (el, index) {
-              if (el.me === true) {
+              if (el.author == cookies.name) {
                 return (
                   <div
                     key={el.id}

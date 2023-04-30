@@ -11,6 +11,9 @@ import Commentary from "./components/Commentaty/Commentary.jsx";
 import Forum from "./page/Forum/Forum.jsx";
 import AnswerForum from "./page/AnswerForum/AnswerForum.jsx";
 import AnswersForForum from "./page/AnswersForForum/AnswersForForum.jsx";
+import Test from "./page/Test/Test.jsx";
+import FirstTest from "./page/FirstTest/FirstTest.jsx";
+import Result from "./page/Result/Result.jsx";
 
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies();
@@ -30,6 +33,9 @@ function App() {
               <Route element={<Forum />} path="/forum" />
               <Route element={<AnswerForum />} path="/forum-ask" />
               <Route element={<AnswersForForum />} path="/forum-answers" />
+              <Route element={<Test />} path="/test" />
+              <Route element={<FirstTest />} path="/test/1" />
+              <Route element={<Result />} path="/result" />
             </>
           ) : (
             ""

@@ -1,0 +1,37 @@
+.main_container {
+  width: 100vw;
+  display: flex;
+  margin-top: 15px;
+  justify-content: center;
+}
+
+.container {
+  width: 90%;
+}
+
+.tests_container {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.test {
+  cursor: pointer;
+  border: 1px solid rgba(128, 128, 128, 0.219);
+  border-radius: 10px;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  img {
+    width: 200px;
+  }
+  p {
+    margin-left: 5px;
+    width: 100%;
+  }
+}
+
+.text {
+  font-size: 20px;
+}

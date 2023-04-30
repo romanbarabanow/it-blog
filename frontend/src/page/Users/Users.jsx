@@ -24,7 +24,7 @@ const Users = () => {
               </div>
               <div>
                 <NavLink
-                  to={`/chat?friendId=${el._id}&type=createroom`}
+                  to={`/chat?friendName=${el.name}&type=createroom`}
                   style={{ textDecoration: "none", color: "black" }}
                 >
                   <p style={{ cursor: "pointer" }}>Написать</p>

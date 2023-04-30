@@ -4,15 +4,15 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 const axios = require("axios");
 
-const Post = require("./mongo/Post");
 const User = require("./mongo/User");
 const RoomsForMessage = require("./mongo/RoomsForMessage");
-const Commentary = require("./mongo/Commentary");
+const Message = require("./mongo/Message");
 
 const app = express();
-const mongoose = require("mongoose");
-app.use(cors({ origin: "*" }));
 
+const mongoose = require("mongoose");
+
+app.use(cors({ origin: "*" }));
 const server = http.createServer(app);
 
 const io = new Server(server, {
@@ -22,20 +22,8 @@ const io = new Server(server, {
   },
 });
 
-const data = [
-  { id: "a57566786786765d", message: "Привет", me: false },
-  { id: "a575786786675ad", message: "Привет", me: true },
-  { id: "a5677678686785675aaad", message: "Что делаешь?", me: false },
-  { id: "aa75678768678678675vdfvdad", message: "Да ничего, отдыхаю", me: true },
-  { id: "advdv4534645645dbd", message: "Понятненько", me: false },
-  { id: "afvdvgr45345fad", message: "Пойдешь завтра гулять?", me: true },
-  { id: "aad5dfsdfsdfsdf7576575vdfaad", message: "Почему бы и нет", me: false },
-  { id: "a12adsfsdfsdad", message: "Тогда давай", me: true },
-  { id: "a575534534534575adad", message: "Дела пойду делать", me: true },
-];
-
 mongoose
-  .connect("mongodb://localhost:27017/expressmongo", {
+  .connect("mongodb://mongodb:27017/expressmongo", {
     useNewUrlParser: true,
   })
   .then(() => console.log("MongoDB Connected"))
@@ -44,49 +32,66 @@ mongoose
 io.on("connection", (socket) => {
   socket.on("join", ({ id }) => {
     socket.join(id);
-    socket.emit("messages", {
-      data,
+    console.log(id);
+    Message.find({ roomId: id }).then((data) => {
+      console.log(data);
+      io.to(id).emit("messages", data);
     });
   });
-  socket.on("sendMessage", ({ id, message }) => {
-    data.push({ id: Date.now(), message, me: true });
-    socket.to(id).emit("message", data);
+  socket.on("sendMessage", ({ id, message, author }) => {
+    const newMessage = new Message({
+      author,
+      message,
+      roomId: id,
+    });
+    newMessage.save().then(() => {
+      Message.find({ roomId: id }).then((data) => {
+        io.to(id).emit("newData", data);
+      });
+    });
   });
   socket.on("my-dialogs", ({ myName }) => {
     RoomsForMessage.find({ myName }).then((datas) => {
       socket.emit("my-dialogs", { datas });
     });
   });
-  socket.on("create-room", ({ creator, friendId }) => {
-    User.findOne({ _id: friendId }).then((friend) => {
-      if (friend != null) {
-        RoomsForMessage.findOne({ myName: friend.name }).then((isExist) => {
-          if (isExist === null) {
-            RoomsForMessage.findOne({ myName: creator }).then((myExist) => {
+  socket.on("create-room", ({ creator, friendName }) => {
+    RoomsForMessage.findOne({ myName: creator, name: friendName }).then(
+      (isExist) => {
+        if (isExist === null) {
+          RoomsForMessage.findOne({ myName: friendName, name: creator }).then(
+            (myExist) => {
+              console.log(myExist);
               if (myExist === null) {
                 const roomid = Date.now();
                 const roomForFriend = new RoomsForMessage({
                   room_id: roomid,
                   name: creator,
-                  myName: friend.name,
+                  myName: friendName,
                 });
                 const myRoom = new RoomsForMessage({
                   room_id: roomid,
-                  name: friend.name,
+                  name: friendName,
                   myName: creator,
                 });
                 roomForFriend.save();
-                myRoom.save();
-                RoomsForMessage.find({ myName: creator }).then((datas) => {
-                  socket.emit("newRoomData", { datas });
+                myRoom.save().then(() => {
+                  RoomsForMessage.find({ myName: creator }).then((data) => {
+                    console.log(data);
+                    socket.emit("newRoomData", data);
+                  });
                 });
               }
-            });
-          }
-        });
+            }
+          );
+        }
       }
-    });
+    );
   });
+});
+
+RoomsForMessage.find().then((data) => {
+  console.log(data);
 });
 
 server.listen(5001, () => {
