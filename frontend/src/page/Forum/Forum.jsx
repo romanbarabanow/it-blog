@@ -3,11 +3,13 @@ import styles from "./Forum.module.scss";
 import { NavLink } from "react-router-dom";
 import io from "socket.io-client";
 import Header from "../../components/Header/Header";
+import { useSelector } from "react-redux";
 const socket = io.connect("http://localhost:5004");
 
 const Forum = () => {
   socket.emit("all_question");
   const [queastion, setQuestion] = useState([]);
+  const isReg = useSelector((state) => state.user.login);
 
   useEffect(() => {
     socket.on("all_question", (data) => {
@@ -19,15 +21,17 @@ const Forum = () => {
     });
   }, [socket]);
   return (
-    <>
+    <div style={{ display: "flex" }}>
       <Header />
       <div className={styles.main_container}>
         <div className={styles.container}>
           <div className={styles.text}>
             <p>Вопросы</p>
-            <NavLink to="/forum-ask">
-              <button>Задать вопрос</button>
-            </NavLink>
+            {isReg && (
+              <NavLink to="/forum-ask">
+                <button>Задать вопрос</button>
+              </NavLink>
+            )}
           </div>
           <div className={styles.question_container}>
             {queastion.map((el) => (
@@ -59,7 +63,7 @@ const Forum = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

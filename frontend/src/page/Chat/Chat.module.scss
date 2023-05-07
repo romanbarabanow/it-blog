@@ -1,5 +1,5 @@
 .container {
-  width: 100vw;
+  width: 80vw;
   display: flex;
   justify-content: center;
   padding-top: 10px;
@@ -37,7 +37,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  height: 73vh;
+  height: 80vh;
   overflow: hidden;
 }
 
@@ -67,7 +67,6 @@
   margin-top: 10px;
   display: flex;
   justify-content: center;
-  margin-bottom: 10px;
   textarea {
     width: 70%;
     outline: none;

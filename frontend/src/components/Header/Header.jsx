@@ -1,126 +1,115 @@
 import styles from "./Header.module.scss";
 import { useEffect, useState } from "react";
-import Registration from "../Registration/Registration.jsx";
 import { useCookies } from "react-cookie";
-import ProfileHeader from "../ProfileHeader/ProfileHeader.jsx";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import io from "socket.io-client";
-const socket = io.connect("http://localhost:5002");
+import axios from "axios";
+import profileuser from "../../image/profile.png";
+import main from "../../image/main.png";
+import communication from "../../image/communication.png";
+import chat from "../../image/chat.png";
+import exit from "../../image/exit.png";
+import test from "../../image/approval.png";
+import Account from "../Account/Account";
+import { setUser } from "../../store/user";
 
 const Header = () => {
-  const [loginInput, setLoginInput] = useState("");
-  const [passInput, setPassInput] = useState("");
-  const [login, setLogin] = useState(false);
-  const [reg, setReg] = useState(false);
-  const [profile, setProfile] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies();
-  const loginToAccount = () => {
-    socket.emit("loginWithData", { email: loginInput, password: passInput });
-  };
-  socket.emit("login", { email: cookies.email });
-  useEffect(() => {
-    socket.on("data for login", (data) => {
-      if (data.data) {
-        setProfile(true);
-        setLogin(false);
-      }
-    });
-    socket.on("token", (data) => {
-      if (data.user) {
-        setCookie("name", data.user.name);
-        setCookie("email", data.user.email);
-        setProfile(true);
-        setLogin(false);
-      }
-    });
-  }, [socket]);
+  const user = useSelector((state) => state.user.user);
+  const isReg = useSelector((state) => state.user.login);
+  const dispatch = useDispatch();
 
+  const [cookies, setCookie, removeCookie] = useCookies();
+  const [reg, setReg] = useState(false);
+
+  useEffect(() => {
+    axios
+      .post("http://localhost:5002/login", {
+        email: cookies.email,
+        password: cookies.password,
+      })
+      .then((data) => {
+        if (!data.data.message) {
+          dispatch(setUser(data.data));
+        }
+      });
+  }, [axios, cookies]);
   return (
     <>
-      {reg && <Registration setReg={setReg} setProfile={setProfile} />}
-      <div className={styles.main_container}>
-        <div className={styles.navigation_container}>
-          <NavLink style={{ color: "black", textDecoration: "none" }} to="/">
-            <p>Главная</p>
-          </NavLink>
-          <NavLink
-            style={{ color: "black", textDecoration: "none" }}
-            to="/forum"
-          >
-            <p>Форум</p>
-          </NavLink>
-          <NavLink
-            style={{ color: "black", textDecoration: "none" }}
-            to="/test"
-          >
-            <p>Тест</p>
-          </NavLink>
-          <NavLink
-            style={{ color: "black", textDecoration: "none" }}
-            to="/users"
-          >
-            <p>Пользователи</p>
-          </NavLink>
-          <NavLink
-            style={{ color: "black", textDecoration: "none" }}
-            to="/chat"
-          >
-            <p>Чат</p>
-          </NavLink>
-        </div>
-        <div className={styles.account_container}>
-          <ProfileHeader
-            profile={profile}
-            setLogin={setLogin}
-            login={login}
-            setProfile={setProfile}
-          />
-        </div>
-      </div>
-      {login && (
-        <div className={styles.help}>
-          <div className={styles.login_container}>
-            <div className={styles.input}>
-              <p>Логин</p>
-              <input
-                placeholder={"Введите логин"}
-                value={loginInput}
-                onChange={(e) => {
-                  setLoginInput(e.target.value);
-                }}
-              />
-            </div>
-            <div className={styles.input}>
-              <p>Пароль</p>
-              <input
-                placeholder="Введите пароль"
-                type="password"
-                value={passInput}
-                onChange={(e) => {
-                  setPassInput(e.target.value);
-                }}
-              />
-            </div>
-            <button
+      {reg && <Account setReg={setReg} />}
+      <div
+        className={styles.container}
+        onClick={() => {
+          console.log(isReg, user);
+        }}
+      >
+        <div className={styles.profile_container}>
+          {isReg ? (
+            <>
+              <img src={user.avatar_link} />
+              <p>{user.name}</p>
+            </>
+          ) : (
+            <p
+              className={styles.loginIn}
               onClick={() => {
-                loginToAccount();
+                setReg(true);
               }}
             >
               Войти
-            </button>
-            <div className={styles.reg}>
-              <p
-                onClick={() => {
-                  setLogin(false);
-                  setReg(true);
-                }}
-              >
-                Регистрация
-              </p>
-            </div>
+            </p>
+          )}
+        </div>
+        <div className={styles.navcontainer}>
+          <div className={styles.container_nav}>
+            <img src={profileuser} />
+            <NavLink className={styles.text} to={"/profile"}>
+              Мой профиль
+            </NavLink>
+          </div>
+          <div
+            className={styles.container_nav}
+            style={{ width: "33%", marginRight: "17%" }}
+          >
+            <img src={main} />
+            <NavLink className={styles.text} to={"/"}>
+              Главная
+            </NavLink>
+          </div>
+          <div
+            className={styles.container_nav}
+            style={{ width: "28%", paddingRight: "22%" }}
+          >
+            <img src={communication} />
+            <NavLink className={styles.text} to={"/forum"}>
+              Форум
+            </NavLink>
+          </div>
+          <div
+            className={styles.container_nav}
+            style={{ width: "20%", marginRight: "30%" }}
+          >
+            <img src={chat} />
+            <NavLink className={styles.text} to={"/chat"}>
+              Чат
+            </NavLink>
+          </div>
+          <div
+            className={styles.container_nav}
+            style={{ width: "20%", marginRight: "30%" }}
+          >
+            <img src={test} />
+            <NavLink className={styles.text} to={"/test"}>
+              Тест
+            </NavLink>
           </div>
         </div>
-      )}
+        <div className={styles.exit_container}>
+          <div>
+            <img src={exit} />
+            <p>Выйти</p>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

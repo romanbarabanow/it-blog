@@ -27,7 +27,7 @@ const Main = () => {
     });
   }, [socket]);
   return (
-    <>
+    <div className={styles.main_container}>
       <Header />
       <div className={styles.container}>
         <div className={styles.news_container}>
@@ -39,7 +39,7 @@ const Main = () => {
         </div>
         <Feed post={post} />
       </div>
-    </>
+    </div>
   );
 };
 

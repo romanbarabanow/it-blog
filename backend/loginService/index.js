@@ -8,6 +8,8 @@ const User = require("./mongo/User");
 
 const app = express();
 const mongoose = require("mongoose");
+
+app.use(express.json());
 app.use(cors({ origin: "*" }));
 
 const server = http.createServer(app);
@@ -20,7 +22,7 @@ const io = new Server(server, {
 });
 
 mongoose
-  .connect("mongodb://mongodb:27017/expressmongo", {
+  .connect("mongodb://localhost:27017/expressmongo", {
     useNewUrlParser: true,
   })
   .then(() => console.log("MongoDB Connected"))
@@ -30,13 +32,6 @@ io.on("connection", (socket) => {
   socket.on("all-users", () => {
     User.find().then((data) => {
       socket.emit("users", { data });
-    });
-  });
-  socket.on("loginWithData", ({ email, password }) => {
-    User.findOne({ email: email, password: password }).then((data) => {
-      if (data != null) {
-        socket.emit("token", { user: data });
-      }
     });
   });
   socket.on("changeUser", ({ avatar_link, description, password, email }) => {
@@ -50,41 +45,34 @@ io.on("connection", (socket) => {
       });
     });
   });
-  socket.on("login", ({ email }) => {
-    if (email) {
-      User.findOne({ email: email }).then((data) => {
-        if (data === null) {
-          socket.emit("data for login", {
-            message: "Fail",
-          });
-        }
-        socket.emit("data for login", {
-          data,
-        });
+});
+
+app.post("/registration", (req, res) => {
+  const { name, email, password } = req.body;
+  User.findOne({ email }).then((isExist) => {
+    if (isExist === null) {
+      const newUser = new User({
+        name,
+        email,
+        password,
       });
+      newUser.save();
+      axios.post(`http://localhost:5000/dir?name=${name}`);
+      res.json({ message: "OK" });
+    } else {
+      res.json({ message: "FAIL" });
     }
-    socket.emit("data for login", {
-      message: "Fail",
-    });
   });
-  socket.on("registration", ({ name, login, password }) => {
-    User.findOne({ email: login, name }).then((data) => {
-      if (data === null) {
-        const newUser = new User({
-          email: login,
-          name,
-          password,
-        });
-        newUser.save().then(() => {
-          User.findOne({ email: login }).then((data) => {
-            axios.post(`http://image-service:5000/dir?name=${data.name}`);
-            socket.emit("regData", {
-              data,
-            });
-          });
-        });
-      }
-    });
+});
+
+app.post("/login", (req, res) => {
+  const { email, password } = req.body;
+  User.findOne({ email, password }).then((data) => {
+    if (data != null) {
+      res.json(data);
+    } else {
+      res.json({ message: "FAIL" });
+    }
   });
 });
 

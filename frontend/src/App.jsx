@@ -1,6 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
-import { CookiesProvider, useCookies } from "react-cookie";
+import { CookiesProvider } from "react-cookie";
 
 import Main from "./page/Main/Main.jsx";
 import Profile from "./page/Profile/Profile.jsx";
@@ -14,23 +14,24 @@ import AnswersForForum from "./page/AnswersForForum/AnswersForForum.jsx";
 import Test from "./page/Test/Test.jsx";
 import FirstTest from "./page/FirstTest/FirstTest.jsx";
 import Result from "./page/Result/Result.jsx";
+import { useSelector } from "react-redux";
 
 function App() {
-  const [cookies, setCookie, removeCookie] = useCookies();
+  const isReg = useSelector((state) => state.user.login);
   return (
     <CookiesProvider>
       <BrowserRouter>
         <Routes>
           <Route path="*" element={<Navigate to="/" />} />
           <Route element={<Main />} path="/" />
-          {cookies.email ? (
+          <Route element={<Forum />} path="/forum" />
+          {isReg ? (
             <>
               <Route element={<ChangeProfile />} path="/profile-settings" />
               <Route element={<Profile />} path="/profile" />
               <Route element={<Chat />} path="/chat" />
               <Route element={<Users />} path="/users" />
               <Route element={<Commentary />} path="/commentary" />
-              <Route element={<Forum />} path="/forum" />
               <Route element={<AnswerForum />} path="/forum-ask" />
               <Route element={<AnswersForForum />} path="/forum-answers" />
               <Route element={<Test />} path="/test" />

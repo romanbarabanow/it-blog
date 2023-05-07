@@ -58,7 +58,7 @@ const Chat = () => {
     });
   }, [socket]);
   return (
-    <>
+    <div style={{ display: "flex" }}>
       <Header />
       <div className={styles.container}>
         <div className={styles.users_container}>
@@ -140,7 +140,7 @@ const Chat = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

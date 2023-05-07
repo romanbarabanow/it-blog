@@ -5,11 +5,14 @@ import Commentary from "../Commentaty/Commentary";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
 import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setPost } from "../../store/post";
 const socket = io.connect("http://localhost:5003");
 
 const Post = (props) => {
   const [commentaryView, setCommentaryView] = useState(false);
   const post = props.post;
+  const dispatch = useDispatch();
   const needCommentary = props.need ? false : true;
   const [likes, setLike] = useState(post.likes);
   const [isLiked, setIsLiked] = useState(false);
@@ -64,7 +67,12 @@ const Post = (props) => {
                 }
               }}
             />
-            <NavLink to={`/commentary?id=${post._id}`}>
+            <NavLink
+              to={`/commentary?id=${post._id}`}
+              onClick={() => {
+                dispatch(setPost(post));
+              }}
+            >
               <img src={commentaryImg} />
             </NavLink>
           </div>

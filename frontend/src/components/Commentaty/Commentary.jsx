@@ -5,9 +5,11 @@ import io from "socket.io-client";
 import arrow from "../../image/arrow.png";
 import { useCookies } from "react-cookie";
 import { NavLink, useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 const socket = io.connect("http://localhost:5003");
 
 const Commentary = () => {
+  const postContent = useSelector((state) => state.post.post);
   const [queryParameters] = useSearchParams();
   socket.emit("get-commentary", { postid: queryParameters.get("id") });
   const [input, setInput] = useState("");
@@ -38,7 +40,13 @@ const Commentary = () => {
         </NavLink>
       </div>
       <div className={styles.container}>
-        <div className={styles.input_container}>
+        {/* <Post need={false} /> */}
+        <div
+          className={styles.input_container}
+          onClick={() => {
+            console.log(postContent);
+          }}
+        >
           <textarea
             placeholder="Напишите комментарий..."
             value={input}

@@ -5,6 +5,8 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import UserPost from "../../components/UserPost/UserPost.jsx";
 import io from "socket.io-client";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 const socketPost = io.connect("http://localhost:5003");
 const socketLogin = io.connect("http://localhost:5002");
 
@@ -15,7 +17,7 @@ const Profile = () => {
   const [cookies] = useCookies();
   const [post, setPost] = useState("");
   const [file, setFile] = useState();
-  const [user, setUser] = useState({ avatar_link: "", name: "Loading" });
+  const user = useSelector((state) => state.user.user);
   const [myPosts, setMyPosts] = useState([]);
   const uploadImg = () => {
     const formData = new FormData();
@@ -39,14 +41,8 @@ const Profile = () => {
     setInputTittle("");
     setPost("");
   };
-  socketLogin.emit("login", { email: cookies.email });
   socketPost.emit("myPost", { email: user.name });
   useEffect(() => {
-    socketLogin.on("data for login", (data) => {
-      if (data.data) {
-        setUser(data.data);
-      }
-    });
     socketPost.on("post", (data) => {
       if (data.data) {
         const newArray = [];
@@ -67,7 +63,7 @@ const Profile = () => {
     });
   }, [socketPost, socketLogin]);
   return (
-    <>
+    <div style={{ display: "flex" }}>
       <Header />
       <div className={styles.container}>
         <div className={styles.main_container}>
@@ -80,6 +76,11 @@ const Profile = () => {
             <div className={styles.description_container}>
               <p style={{ marginLeft: "10px" }}>{user.description}</p>
             </div>
+          </div>
+          <div className={styles.edit_container}>
+            <NavLink to={"/profile-settings"}>
+              <button>Редактировать профиль</button>
+            </NavLink>
           </div>
           <div className={styles.write_post}>
             <div style={{ width: "70%" }}>
@@ -134,7 +135,7 @@ const Profile = () => {
           <UserPost post={myPosts} setMyPosts={setMyPosts} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

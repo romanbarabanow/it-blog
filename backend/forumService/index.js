@@ -2,11 +2,9 @@ const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
-const axios = require("axios");
 
 const ForumAnswer = require("./mongo/ForumAnswer");
 const ForumQuestion = require("./mongo/ForumQuestion");
-const User = require("./mongo/User");
 
 const app = express();
 const mongoose = require("mongoose");
@@ -22,19 +20,19 @@ const io = new Server(server, {
 });
 
 mongoose
-  .connect("mongodb://mongodb:27017/expressmongo", {
+  .connect("mongodb://localhost:27017/expressmongo", {
     useNewUrlParser: true,
   })
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
 io.on("connection", (socket) => {
-  socket.on("new_answer", ({ questionId, author, answer }) => {
+  socket.on("new_answer", ({ questionId, author, answer, avatar_link }) => {
     const newAnswer = new ForumAnswer({
       questionId,
       answer,
       author,
-      avatar: data.avatar_link,
+      avatar: avatar_link,
     });
     newAnswer.save();
     ForumAnswer.find({ questionId: questionId }).then((data) => {
@@ -53,14 +51,14 @@ io.on("connection", (socket) => {
       socket.emit("answer", data);
     });
   });
-  socket.on("new_question", ({ author, question, body }) => {
-    const newQuestion = new ForumQuestion({
-      author: data.name,
-      avatar: data.avatar_link,
-      question,
-      body,
-    });
-    newQuestion.save();
+  socket.on("new_question", ({ author, question, body, avatar_link }) => {
+    // const newQuestion = new ForumQuestion({
+    //   author: author,
+    //   avatar: avatar_link,
+    //   question,
+    //   body,
+    // });
+    // newQuestion.save();
     socket.emit("questionRespone", { message: "OK" });
   });
   socket.on("findQuestion", ({ id }) => {

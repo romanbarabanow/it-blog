@@ -14,7 +14,7 @@ const Test = () => {
     },
   ];
   return (
-    <>
+    <div style={{ display: "flex" }}>
       <Header />
       <div className={styles.main_container}>
         <div className={styles.container}>
@@ -35,7 +35,7 @@ const Test = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

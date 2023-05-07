@@ -4,22 +4,25 @@ import Header from "../../components/Header/Header";
 import io from "socket.io-client";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../store/user";
 const socket = io.connect("http://localhost:5002");
 
 const ChangeProfile = () => {
   const ref = useRef();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.user);
   const [cookies, setCookie, removeCookie] = useCookies();
-  const [description, setDescription] = useState("");
-  const [password, setPassword] = useState("");
-  const [avatarslink, setAvatarslink] = useState("");
+  const [description, setDescription] = useState(user.description);
+  const [password, setPassword] = useState(user.password);
+  const [avatarslink, setAvatarslink] = useState(user.avatar_link);
   const [file, setFile] = useState();
   const [photoIs, setPhotoIs] = useState(false);
-  socket.emit("login", { email: cookies.email });
   const saveButton = () => {
     const formData = new FormData();
     formData.append("file", file[0]);
     axios
-      .post(`http://localhost:5000/img?name=${cookies.name}`, formData)
+      .post(`http://localhost:5000/img?name=${user.name}`, formData)
       .then((response) => {
         socket.emit("changeUser", {
           avatar_link: response.data.urlfile,
@@ -31,7 +34,6 @@ const ChangeProfile = () => {
   };
   let counter = 0;
   useEffect(() => {
-    console.log("effect");
     socket.on("changeUsersData", (data) => {
       console.log(data);
       counter = 0;
@@ -41,22 +43,13 @@ const ChangeProfile = () => {
           setDescription(data.data.description);
           setPassword(data.data.password);
           setAvatarslink(data.data.avatar_link);
-        }
-      }
-    });
-    socket.on("data for login", (data) => {
-      if (data.data) {
-        if (counter === 0) {
-          counter = 1;
-          setDescription(data.data.description);
-          setPassword(data.data.password);
-          setAvatarslink(data.data.avatar_link);
+          dispatch(setUser(data.data));
         }
       }
     });
   }, [socket]);
   return (
-    <>
+    <div style={{ display: "flex" }}>
       <Header />
       <div className={styles.container}>
         <div className={styles.you_profile}>
@@ -116,7 +109,7 @@ const ChangeProfile = () => {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

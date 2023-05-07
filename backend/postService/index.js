@@ -23,7 +23,7 @@ const io = new Server(server, {
 });
 
 mongoose
-  .connect("mongodb://mongodb:27017/expressmongo", {
+  .connect("mongodb://localhost:27017/expressmongo", {
     useNewUrlParser: true,
   })
   .then(() => console.log("MongoDB Connected"))
