@@ -12,7 +12,7 @@ const Users = () => {
   socket.emit("all-users");
   const userList = () => {
     if (users.length === 0) {
-      return "";
+      return "Пользователи не найдены";
     } else {
       return users.map(function (el) {
         if (el.email !== cookies.email) {
@@ -29,7 +29,12 @@ const Users = () => {
                 >
                   <p style={{ cursor: "pointer" }}>Написать</p>
                 </NavLink>
-                <p style={{ cursor: "pointer" }}>Профиль</p>
+                <NavLink
+                  to={`/user?email=${el.email}&name=${el.name}`}
+                  style={{ textDecoration: "none", color: "black" }}
+                >
+                  <p style={{ cursor: "pointer" }}>Профиль</p>
+                </NavLink>
               </div>
             </div>
           );
@@ -45,12 +50,12 @@ const Users = () => {
     });
   }, [socket]);
   return (
-    <>
+    <div style={{ display: "flex" }}>
       <Header />
       <div className={styles.container}>
         <div className={styles.main_container}>{userList()}</div>
       </div>
-    </>
+    </div>
   );
 };
 

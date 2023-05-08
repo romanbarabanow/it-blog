@@ -12,6 +12,7 @@ import exit from "../../image/exit.png";
 import test from "../../image/approval.png";
 import Account from "../Account/Account";
 import { setUser } from "../../store/user";
+import userImg from "../../image/users.png";
 
 const Header = () => {
   const user = useSelector((state) => state.user.user);
@@ -100,6 +101,15 @@ const Header = () => {
             <img src={test} />
             <NavLink className={styles.text} to={"/test"}>
               Тест
+            </NavLink>
+          </div>
+          <div
+            className={styles.container_nav}
+            style={{ width: "20%", marginRight: "30%" }}
+          >
+            <img src={userImg} />
+            <NavLink className={styles.text} to={"/users"}>
+              Пользователи
             </NavLink>
           </div>
         </div>

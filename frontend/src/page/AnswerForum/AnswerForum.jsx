@@ -6,31 +6,29 @@ import { useCookies } from "react-cookie";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 const socket = io.connect("http://localhost:5004");
+import axios from "axios";
 
 const AnswerForum = () => {
   const [cookies, setCookie, removeCookie] = useCookies();
   const user = useSelector((state) => state.user.user);
   const [message, setMessage] = useState(false);
-  const sendQuestion = () => {
-    socket.emit("new_question", {
-      author: cookies.name,
-      question,
-      body,
-      avatar_link: user.avatar_link,
-    });
-  };
   const [question, setQuestion] = useState("");
   const [body, setBody] = useState("");
-  useEffect(() => {
-    socket.on("questionRespone", (data) => {
-      console.log(data);
-      // if (data.message == "OK") {
-      //   setBody("");
-      //   setQuestion("");
-      //   setMessage(true);
-      // }
-    });
-  }, [socket]);
+  const sendQuestion = () => {
+    axios
+      .post("http://localhost:5004/create", {
+        author: user.name,
+        avatar: user.avatar_link,
+        question,
+        body,
+      })
+      .then((data) => {
+        if (data.data.message == "OK") {
+          setMessage(true);
+        }
+      });
+  };
+
   return (
     <div className={styles.main_container}>
       {message && (

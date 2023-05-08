@@ -15,6 +15,7 @@ import Test from "./page/Test/Test.jsx";
 import FirstTest from "./page/FirstTest/FirstTest.jsx";
 import Result from "./page/Result/Result.jsx";
 import { useSelector } from "react-redux";
+import AllUsers from "./page/AllUsers/AllUsers.jsx";
 
 function App() {
   const isReg = useSelector((state) => state.user.login);
@@ -37,6 +38,7 @@ function App() {
               <Route element={<Test />} path="/test" />
               <Route element={<FirstTest />} path="/test/1" />
               <Route element={<Result />} path="/result" />
+              <Route element={<AllUsers />} path="/user" />
             </>
           ) : (
             ""

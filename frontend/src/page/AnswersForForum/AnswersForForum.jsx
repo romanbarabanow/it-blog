@@ -10,29 +10,22 @@ const AnswersForForum = () => {
   const [answer, setAnswer] = useState("");
   const [queryParameters] = useSearchParams();
   const [answers, setAnswers] = useState([]);
-  const [answerToQuestion, setAnswerToQuestion] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies();
   const user = useSelector((state) => state.user.user); // questionId, author, answer, avatar_link
   const [el, setEl] = useState({});
   const sendAnswer = () => {
     socket.emit("new_answer", {
       questionId: queryParameters.get("id"),
-      author: cookies.name,
+      author: user.name,
       answer,
       avatar_link: user.avatar_link,
     });
+    setAnswer("");
   };
 
   socket.emit("answer", { id: queryParameters.get("id") });
   socket.emit("findQuestion", { id: queryParameters.get("id") });
   useEffect(() => {
-    socket.on("newAnswer", (data) => {
-      const newArray = [];
-      data.forEach((el) => {
-        newArray.unshift(el);
-      });
-      setAnswers(newArray);
-    });
     socket.on("answer", (data) => {
       const newArray = [];
       data.forEach((el) => {
@@ -55,14 +48,7 @@ const AnswersForForum = () => {
         </NavLink>
       </div>
       <div className={styles.question_container}>{el.question}</div>
-      <div
-        className={styles.body}
-        onClick={() => {
-          console.log(answerToQuestion);
-        }}
-      >
-        {el.body}
-      </div>
+      <div className={styles.body}>{el.body}</div>
       <div className={styles.user}>
         <img src={el.avatar} />
         <p>{el.author}</p>

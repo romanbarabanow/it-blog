@@ -45,6 +45,11 @@ io.on("connection", (socket) => {
       });
     });
   });
+  socket.on("user-data", ({ email }) => {
+    User.findOne({ email }).then((data) => {
+      socket.emit("user-data", data);
+    });
+  });
 });
 
 app.post("/registration", (req, res) => {

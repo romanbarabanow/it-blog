@@ -44,6 +44,8 @@ const ChangeProfile = () => {
           setPassword(data.data.password);
           setAvatarslink(data.data.avatar_link);
           dispatch(setUser(data.data));
+          setCookie("name", data.data.name);
+          setCookie("password", data.data.password);
         }
       }
     });

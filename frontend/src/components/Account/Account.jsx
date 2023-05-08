@@ -26,8 +26,18 @@ const Account = ({ setReg }) => {
         .then((data) => {
           if (data.data.message == "FAIL") {
             setFailLogin(true);
+          } else {
+            setCookie("password", data.data.password);
+            setCookie("email", data.data.email);
+            setCookie("name", data.data.name);
+            dispatch(
+              setUser({
+                name: data.data.name,
+                avatar_link: data.data.avatar_link,
+              })
+            );
+            setReg(false);
           }
-          console.log(data);
         });
     }
     if (registration == true) {
@@ -41,6 +51,7 @@ const Account = ({ setReg }) => {
           if (data.data.message == "OK") {
             setCookie("password", password);
             setCookie("email", email);
+            setCookie("name", name);
             dispatch(setUser({ name: name, avatar_link: "" }));
             setReg(false);
           }

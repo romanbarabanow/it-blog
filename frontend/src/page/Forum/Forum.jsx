@@ -5,21 +5,19 @@ import io from "socket.io-client";
 import Header from "../../components/Header/Header";
 import { useSelector } from "react-redux";
 const socket = io.connect("http://localhost:5004");
+import axios from "axios";
 
 const Forum = () => {
-  socket.emit("all_question");
   const [queastion, setQuestion] = useState([]);
   const isReg = useSelector((state) => state.user.login);
 
-  useEffect(() => {
-    socket.on("all_question", (data) => {
-      const newArray = [];
-      data.forEach((el) => {
-        newArray.unshift(el);
-      });
-      setQuestion(newArray);
+  axios.get("http://localhost:5004/all").then((data) => {
+    const newArray = [];
+    data.data.forEach((el) => {
+      newArray.unshift(el);
     });
-  }, [socket]);
+    setQuestion(newArray);
+  });
   return (
     <div style={{ display: "flex" }}>
       <Header />
