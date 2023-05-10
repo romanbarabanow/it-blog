@@ -114,7 +114,14 @@ const Header = () => {
           </div>
         </div>
         <div className={styles.exit_container}>
-          <div>
+          <div
+            onClick={() => {
+              removeCookie("password");
+              removeCookie("email");
+              removeCookie("name");
+              window.location.reload();
+            }}
+          >
             <img src={exit} />
             <p>Выйти</p>
           </div>

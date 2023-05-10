@@ -34,8 +34,11 @@ io.on("connection", (socket) => {
     });
   });
   socket.on("delete-question", ({ id }) => {
-    ForumQuestion.findOneAndDelete({ _id: id });
-    ForumAnswer.deleteMany({ questionId: id });
+    ForumQuestion.findOneAndDelete({ _id: id }).then(() => {
+      ForumQuestion.find().then((data) => {
+        socket.emit("all", data);
+      });
+    });
   });
   socket.on("new_answer", ({ questionId, author, answer, avatar_link }) => {
     const newAnswer = new ForumAnswer({

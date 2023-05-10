@@ -13,7 +13,6 @@ const Admin = () => {
   const [viewPost, setViewPost] = useState(false);
   const [viewForum, setViewForum] = useState(true);
   socketForum.emit("all_question");
-  socketPost.emit("all_posts");
   useEffect(() => {
     socketPost.on("all_posts", (data) => {
       const newArray = [];
@@ -55,6 +54,7 @@ const Admin = () => {
           <div className={styles.navigation} onClick={() => {}}>
             <p
               onClick={() => {
+                socketPost.emit("all_posts");
                 setViewPost(true);
                 setViewForum(false);
               }}
@@ -83,7 +83,6 @@ const Admin = () => {
                     <Post post={el} need={true} />
                     <button
                       onClick={() => {
-                        post.filter((el) => id == el._id);
                         socketPost.emit("delete-post-admin", { id: el._id });
                       }}
                     >
@@ -93,37 +92,41 @@ const Admin = () => {
                 ))}
               </div>
             )}
-            {/* {viewForum && ( */}
-            <div className={styles.forum_container}>
-              {queastion.map((elem) => (
-                <>
-                  <div className={styles.question}>
-                    <div className={styles.question_main_container}>
-                      <div className={styles.numberofanswers}>
-                        <p>{elem.answers} ответов</p>
+            {viewForum && (
+              <div
+                className={styles.forum_container}
+                onClick={() => {
+                  console.log(queastion);
+                }}
+              >
+                {queastion.map((elem, index) => (
+                  <>
+                    <div className={styles.question}>
+                      <div className={styles.question_main_container}>
+                        <div className={styles.numberofanswers}>
+                          <p>{elem.answers} ответов</p>
+                        </div>
+                        <div className={styles.text_container}>
+                          <p>{elem.question}</p>
+                        </div>
                       </div>
-                      <div className={styles.text_container}>
-                        <p>{elem.question}</p>
+                      <div className={styles.image}>
+                        <img src={elem.avatar} />
+                        <p>{elem.author}</p>
                       </div>
                     </div>
-                    <div className={styles.image}>
-                      <img src={elem.avatar} />
-                      <p>{elem.author}</p>
-                    </div>
-                  </div>
-                  <button
-                    className={styles.button_forum}
-                    onClick={() => {
-                      socketForum.emit("delete-question", { id: elem._id });
-                      queastion.filter((el) => el._id == elem._id);
-                    }}
-                  >
-                    Удалить
-                  </button>
-                </>
-              ))}
-            </div>
-            {/* )} */}
+                    <button
+                      className={styles.button_forum}
+                      onClick={() => {
+                        socketForum.emit("delete-question", { id: elem._id });
+                      }}
+                    >
+                      Удалить
+                    </button>
+                  </>
+                ))}
+              </div>
+            )}
           </div>
         </>
       )}

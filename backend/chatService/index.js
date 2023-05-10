@@ -32,9 +32,7 @@ mongoose
 io.on("connection", (socket) => {
   socket.on("join", ({ id }) => {
     socket.join(id);
-    console.log(id);
     Message.find({ roomId: id }).then((data) => {
-      console.log(data);
       io.to(id).emit("messages", data);
     });
   });
@@ -61,7 +59,6 @@ io.on("connection", (socket) => {
         if (isExist === null) {
           RoomsForMessage.findOne({ myName: friendName, name: creator }).then(
             (myExist) => {
-              console.log(myExist);
               if (myExist === null) {
                 const roomid = Date.now();
                 const roomForFriend = new RoomsForMessage({
@@ -77,7 +74,6 @@ io.on("connection", (socket) => {
                 roomForFriend.save();
                 myRoom.save().then(() => {
                   RoomsForMessage.find({ myName: creator }).then((data) => {
-                    console.log(data);
                     socket.emit("newRoomData", data);
                   });
                 });
@@ -88,10 +84,6 @@ io.on("connection", (socket) => {
       }
     );
   });
-});
-
-RoomsForMessage.find().then((data) => {
-  console.log(data);
 });
 
 server.listen(5001, () => {
