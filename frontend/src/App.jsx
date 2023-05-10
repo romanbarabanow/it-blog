@@ -16,6 +16,7 @@ import FirstTest from "./page/FirstTest/FirstTest.jsx";
 import Result from "./page/Result/Result.jsx";
 import { useSelector } from "react-redux";
 import AllUsers from "./page/AllUsers/AllUsers.jsx";
+import Admin from "./page/Admin/Admin.jsx";
 
 function App() {
   const isReg = useSelector((state) => state.user.login);
@@ -26,6 +27,7 @@ function App() {
           <Route path="*" element={<Navigate to="/" />} />
           <Route element={<Main />} path="/" />
           <Route element={<Forum />} path="/forum" />
+          <Route element={<Admin />} path="/secret/admin-panel" />
           {isReg ? (
             <>
               <Route element={<ChangeProfile />} path="/profile-settings" />

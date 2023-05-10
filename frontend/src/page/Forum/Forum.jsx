@@ -37,12 +37,7 @@ const Forum = () => {
                 to={`/forum-answers?id=${el._id}`}
                 style={{ textDecoration: "none", color: "black" }}
               >
-                <div
-                  className={styles.question}
-                  onClick={() => {
-                    console.log(el);
-                  }}
-                >
+                <div className={styles.question}>
                   <div className={styles.question_main_container}>
                     <div className={styles.numberofanswers}>
                       <p>{el.answers} ответов</p>

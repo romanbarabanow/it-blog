@@ -105,6 +105,13 @@ io.on("connection", (socket) => {
       });
     });
   });
+  socket.on("delete-post-admin", ({ id }) => {
+    Post.findOneAndDelete({ _id: id }).then(() => {
+      Post.find().then((data) => {
+        socket.emit("all_posts", data);
+      });
+    });
+  });
 });
 
 server.listen(5003, () => {

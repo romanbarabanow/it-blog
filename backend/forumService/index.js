@@ -28,6 +28,15 @@ mongoose
   .catch((err) => console.log(err));
 
 io.on("connection", (socket) => {
+  socket.on("all_question", () => {
+    ForumQuestion.find().then((data) => {
+      socket.emit("all", data);
+    });
+  });
+  socket.on("delete-question", ({ id }) => {
+    ForumQuestion.findOneAndDelete({ _id: id });
+    ForumAnswer.deleteMany({ questionId: id });
+  });
   socket.on("new_answer", ({ questionId, author, answer, avatar_link }) => {
     const newAnswer = new ForumAnswer({
       questionId,

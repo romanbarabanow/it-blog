@@ -16,9 +16,7 @@ const Post = (props) => {
   const needCommentary = props.need ? false : true;
   const [likes, setLike] = useState(post.likes);
   const [isLiked, setIsLiked] = useState(false);
-  if (post.tittle === "Хуйня") {
-    return <div></div>;
-  }
+
   useEffect(() => {
     socket.on("likes", (data) => {
       if (data._id === post._id) {
