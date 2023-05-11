@@ -31,7 +31,7 @@
 .container_nav {
   margin-bottom: 30px;
   cursor: pointer;
-  width: 53%;
+  width: 50%;
   display: flex;
   font-size: 18px;
   align-items: center;
@@ -50,6 +50,11 @@
 
 .loginIn {
   cursor: pointer;
+  font-size: 18px;
+  color: rgb(172, 40, 172);
+  &:hover {
+    color: rgb(231, 55, 231);
+  }
 }
 
 .text {
@@ -59,7 +64,7 @@
 }
 
 .exit_container {
-  margin-top: 30vh;
+  margin-top: 25vh;
   width: 90%;
   transition: 0.5s;
   display: flex;

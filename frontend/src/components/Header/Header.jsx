@@ -13,6 +13,7 @@ import test from "../../image/approval.png";
 import Account from "../Account/Account";
 import { setUser } from "../../store/user";
 import userImg from "../../image/users.png";
+import loginImg from "../../image/login.png";
 
 const Header = () => {
   const user = useSelector((state) => state.user.user);
@@ -50,14 +51,17 @@ const Header = () => {
               <p>{user.name}</p>
             </>
           ) : (
-            <p
-              className={styles.loginIn}
-              onClick={() => {
-                setReg(true);
-              }}
-            >
-              Войти
-            </p>
+            <>
+              <img src={loginImg} />
+              <p
+                className={styles.loginIn}
+                onClick={() => {
+                  setReg(true);
+                }}
+              >
+                Войти
+              </p>
+            </>
           )}
         </div>
         <div className={styles.navcontainer}>
@@ -69,7 +73,7 @@ const Header = () => {
           </div>
           <div
             className={styles.container_nav}
-            style={{ width: "33%", marginRight: "17%" }}
+            style={{ width: "37%", marginRight: "13%" }}
           >
             <img src={main} />
             <NavLink className={styles.text} to={"/"}>
@@ -78,7 +82,7 @@ const Header = () => {
           </div>
           <div
             className={styles.container_nav}
-            style={{ width: "28%", paddingRight: "22%" }}
+            style={{ width: "34%", paddingRight: "16%" }}
           >
             <img src={communication} />
             <NavLink className={styles.text} to={"/forum"}>
@@ -87,7 +91,7 @@ const Header = () => {
           </div>
           <div
             className={styles.container_nav}
-            style={{ width: "20%", marginRight: "30%" }}
+            style={{ width: "27%", marginRight: "23%" }}
           >
             <img src={chat} />
             <NavLink className={styles.text} to={"/chat"}>
@@ -96,7 +100,7 @@ const Header = () => {
           </div>
           <div
             className={styles.container_nav}
-            style={{ width: "20%", marginRight: "30%" }}
+            style={{ width: "28%", marginRight: "22%" }}
           >
             <img src={test} />
             <NavLink className={styles.text} to={"/test"}>
@@ -105,7 +109,7 @@ const Header = () => {
           </div>
           <div
             className={styles.container_nav}
-            style={{ width: "20%", marginRight: "30%" }}
+            // style={{ width: "24%", marginRight: "26%" }}
           >
             <img src={userImg} />
             <NavLink className={styles.text} to={"/users"}>

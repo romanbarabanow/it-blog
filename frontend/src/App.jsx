@@ -28,7 +28,7 @@ function App() {
           <Route element={<Main />} path="/" />
           <Route element={<Forum />} path="/forum" />
           <Route element={<Admin />} path="/secret/admin-panel" />
-          {isReg ? (
+          {!isReg ? (
             <>
               <Route element={<ChangeProfile />} path="/profile-settings" />
               <Route element={<Profile />} path="/profile" />
