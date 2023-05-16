@@ -46,6 +46,8 @@
   display: flex;
   div {
     margin-top: 10px;
+    max-width: 40%;
+    word-wrap: break-word;
     padding: 10px;
     border-radius: 10px;
     background-color: lightgrey;
@@ -93,6 +95,7 @@
 }
 
 .user_container {
+  display: flex;
   width: 100%;
   box-shadow: 1px black;
   cursor: pointer;

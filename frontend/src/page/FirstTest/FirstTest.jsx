@@ -93,7 +93,7 @@ const FirstTest = () => {
         </div>
 
         <div className={styles.buttons}>
-          <NavLink to={`/result?answer=${answer}`}>
+          <NavLink to={`/result?answer=${answer}&test=first`}>
             <button>Завершить</button>
           </NavLink>
         </div>

@@ -44,6 +44,9 @@ const Header = () => {
           console.log(isReg, user);
         }}
       >
+        <div className={styles.text_container}>
+          <p>It-Blog</p>
+        </div>
         <div className={styles.profile_container}>
           {isReg ? (
             <>

@@ -17,6 +17,7 @@ import Result from "./page/Result/Result.jsx";
 import { useSelector } from "react-redux";
 import AllUsers from "./page/AllUsers/AllUsers.jsx";
 import Admin from "./page/Admin/Admin.jsx";
+import SecondTest from "./page/SecondTest/SecondTest.jsx";
 
 function App() {
   const isReg = useSelector((state) => state.user.login);
@@ -28,7 +29,7 @@ function App() {
           <Route element={<Main />} path="/" />
           <Route element={<Forum />} path="/forum" />
           <Route element={<Admin />} path="/secret/admin-panel" />
-          {!isReg ? (
+          {isReg ? (
             <>
               <Route element={<ChangeProfile />} path="/profile-settings" />
               <Route element={<Profile />} path="/profile" />
@@ -39,6 +40,7 @@ function App() {
               <Route element={<AnswersForForum />} path="/forum-answers" />
               <Route element={<Test />} path="/test" />
               <Route element={<FirstTest />} path="/test/1" />
+              <Route element={<SecondTest />} path="/test/2" />
               <Route element={<Result />} path="/result" />
               <Route element={<AllUsers />} path="/user" />
             </>

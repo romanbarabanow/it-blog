@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./AllUsers.module.scss";
 import Header from "../../components/Header/Header";
 import { useSearchParams } from "react-router-dom";

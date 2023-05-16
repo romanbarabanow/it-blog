@@ -1,0 +1,39 @@
+.main_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.goback_container {
+  width: 90%;
+  margin-top: 15px;
+  .text {
+    text-decoration: none;
+    color: black;
+    margin-left: 20px;
+  }
+}
+
+.question {
+  width: 80%;
+  padding-left: 10%;
+}
+
+.buttons {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+  align-items: center;
+  button {
+    cursor: pointer;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    font-size: 18px;
+    background-color: chocolate;
+    color: white;
+    width: 160px;
+    margin-bottom: 100px;
+  }
+}

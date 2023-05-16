@@ -70,6 +70,12 @@ app.post("/registration", (req, res) => {
   });
 });
 
+app.get("/users", (req, res) => {
+  User.find().then((data) => {
+    res.json(data);
+  });
+});
+
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
   User.findOne({ email, password }).then((data) => {

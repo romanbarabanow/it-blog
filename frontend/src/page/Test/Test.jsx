@@ -12,6 +12,12 @@ const Test = () => {
       img: firstTestImg,
       url: "/test/1",
     },
+    {
+      id: 2,
+      name: "Гумманитарий я или технарь?",
+      img: "https://testograd.com/upload/aelita.test/4c6/412aa92m58kfpvs10rxpdcbapernsx1e.jpg",
+      url: "/test/2",
+    },
   ];
   return (
     <div style={{ display: "flex" }}>
@@ -27,7 +33,7 @@ const Test = () => {
                 style={{ color: "black", textDecoration: "none" }}
               >
                 <div className={styles.test}>
-                  <img src={el.img} />
+                  <img src={el.img} alt="" />
                   <p>{el.name}</p>
                 </div>
               </NavLink>
