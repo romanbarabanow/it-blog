@@ -6,6 +6,7 @@ const ForumQuestion = new Schema({
   question: { type: String, required: true },
   answers: { type: Number, default: 0 },
   body: { type: String, required: true },
+  codeObj: { type: Object, required: true },
 });
 
 module.exports = model("ForumQuestion", ForumQuestion);

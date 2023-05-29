@@ -5,6 +5,8 @@ import { NavLink, useSearchParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useSelector } from "react-redux";
 const socket = io.connect("http://localhost:5004");
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const AnswersForForum = () => {
   const [answer, setAnswer] = useState("");
@@ -13,6 +15,9 @@ const AnswersForForum = () => {
   const [cookies, setCookie, removeCookie] = useCookies();
   const user = useSelector((state) => state.user.user); // questionId, author, answer, avatar_link
   const [el, setEl] = useState({});
+  const [codeView, setCodeView] = useState(false);
+  const [code, setCode] = useState(``);
+  const [language, setLanguage] = useState(``);
   const sendAnswer = () => {
     socket.emit("new_answer", {
       questionId: queryParameters.get("id"),
@@ -35,6 +40,11 @@ const AnswersForForum = () => {
     });
     socket.on("question", (data) => {
       setEl(data);
+      setLanguage(data.codeObj.language);
+      setCode(data.codeObj.code);
+      if (data.codeObj.isHere == 1) {
+        setCodeView(true);
+      }
     });
   }, [socket]);
   return (
@@ -49,6 +59,17 @@ const AnswersForForum = () => {
       </div>
       <div className={styles.question_container}>{el.question}</div>
       <div className={styles.body}>{el.body}</div>
+      <div className={styles.code_link}>
+        {codeView && (
+          <SyntaxHighlighter
+            language={language}
+            style={atomDark}
+            className={styles.code_link}
+          >
+            {code}
+          </SyntaxHighlighter>
+        )}
+      </div>
       <div className={styles.user}>
         <img src={el.avatar} />
         <p>{el.author}</p>

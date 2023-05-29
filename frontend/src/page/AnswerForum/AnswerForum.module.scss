@@ -1,22 +1,10 @@
 .main_container {
   width: 100vw;
-  height: 100vh;
   justify-content: center;
+  padding-top: 20px;
   display: flex;
   background-color: rgba(249, 249, 249, 0.749);
   flex-direction: column;
-  button {
-    width: 150px;
-    height: 40px;
-    border-radius: 10px;
-    cursor: pointer;
-    background-color: rgb(0, 187, 255);
-    border: none;
-    color: white;
-    font-size: 15px;
-    margin-left: 5%;
-    margin-top: 50px;
-  }
 }
 
 .link {
@@ -44,7 +32,7 @@
   margin-left: 5%;
   display: flex;
   align-items: center;
-  width: 80%;
+  width: 60%;
   justify-content: space-between;
   font-size: 27px;
   font-weight: 500;
@@ -81,4 +69,59 @@
     resize: none;
     height: 150px;
   }
+}
+
+.error_text {
+  color: red;
+  font-size: 15px;
+}
+
+.question_label {
+  margin-top: 10px;
+  input {
+    width: 90%;
+    margin-top: 7px;
+  }
+}
+
+.body_label {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  textarea {
+    margin-top: 7px;
+    resize: none;
+    width: 90%;
+    height: 300px;
+  }
+}
+
+.code_label {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  textarea {
+    margin-top: 7px;
+    resize: none;
+    width: 90%;
+    height: 250px;
+  }
+}
+
+.submit {
+  border-radius: 20px;
+  color: white;
+  font-size: 17px;
+  width: 50%;
+  background-color: blueviolet;
+  height: 40px;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.select {
+  width: 15%;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }

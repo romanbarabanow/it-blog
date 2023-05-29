@@ -6,6 +6,7 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/user";
+import LoginGoole from "../LoginGoogle/LoginGoole";
 
 const Account = ({ setReg }) => {
   const [email, setEmail] = useState("");
@@ -30,6 +31,7 @@ const Account = ({ setReg }) => {
             setCookie("password", data.data.password);
             setCookie("email", data.data.email);
             setCookie("name", data.data.name);
+            removeCookie("type");
             dispatch(
               setUser({
                 name: data.data.name,
@@ -124,6 +126,7 @@ const Account = ({ setReg }) => {
         >
           Нет аккаунта?
         </div>
+        <LoginGoole setReg={setReg} />
       </div>
       <div className={styles.image_container}>
         <img src={bg} />

@@ -73,12 +73,17 @@ io.on("connection", (socket) => {
 });
 
 app.post("/create", (req, res) => {
-  const { author, avatar, question, body } = req.body;
+  const { author, avatar, question, body, code, language, isHere } = req.body;
   const newQuestion = new ForumQuestion({
     author,
     avatar,
     question,
     body,
+    codeObj: {
+      code: code,
+      language: language,
+      isHere: isHere,
+    },
   });
   newQuestion.save();
   console.log(req.body);

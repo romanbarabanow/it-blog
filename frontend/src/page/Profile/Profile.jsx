@@ -77,11 +77,13 @@ const Profile = () => {
               <p style={{ marginLeft: "10px" }}>{user.description}</p>
             </div>
           </div>
-          <div className={styles.edit_container}>
-            <NavLink to={"/profile-settings"}>
-              <button>Редактировать профиль</button>
-            </NavLink>
-          </div>
+          {cookies.type !== "google" && (
+            <div className={styles.edit_container}>
+              <NavLink to={"/profile-settings"}>
+                <button>Редактировать профиль</button>
+              </NavLink>
+            </div>
+          )}
           <div className={styles.write_post}>
             <div style={{ width: "70%" }}>
               <input
